@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact</title>
+<style>
+  body{font-family:system-ui;margin:2rem}
+  form{max-width:480px}
+  label{display:block;margin:0.5rem 0 0.25rem}
+  input,textarea{width:100%;padding:0.6rem;border-radius:6px;border:1px solid #cbd5e1}
+  .error{color:#dc2626;font-size:0.9rem}
+  button{margin-top:0.75rem;padding:0.6rem 1rem;border-radius:6px;border:0;background:#0ea5a4;color:white}
+</style>
+</head>
+<body>
+  <h1>Contact Us</h1>
+  <form id="contactForm" novalidate>
+    <label for="name">Name</label>
+    <input id="name" name="name" required minlength="2" />
+    <div class="error" id="err-name" aria-live="polite"></div>
+
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" required />
+    <div class="error" id="err-email" aria-live="polite"></div>
+
+    <label for="message">Message</label>
+    <textarea id="message" name="message" rows="5" required minlength="10"></textarea>
+    <div class="error" id="err-message" aria-live="polite"></div>
+
+    <button type="submit">Send</button>
+    <div id="status" aria-live="polite" style="margin-top:0.75rem"></div>
+  </form>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    const showErr = (id, text) => document.getElementById(id).textContent = text || '';
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      let ok = true;
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const message = form.message.value.trim();
+      showErr('err-name','');
+      showErr('err-email','');
+      showErr('err-message','');
+
+      if (name.length < 2) { showErr('err-name','Please enter your name (2+ chars).'); ok = false; }
+      if (!/^\S+@\S+\.\S+$/.test(email)) { showErr('err-email','Please enter a valid email.'); ok = false; }
+      if (message.length < 10) { showErr('err-message','Message must be at least 10 characters.'); ok = false; }
+
+      if (!ok) return;
+      // simulate submit
+      document.getElementById('status').textContent = 'Message sent (demo).';
+      form.reset();
+    });
+  </script>
+</body>
+</html>
